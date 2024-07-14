@@ -1,0 +1,17 @@
+.forum-topics {
+  width: 100%;
+  border-collapse: collapse;
+  /* Ensures cells share borders */
+}
+.forum-topics tr{
+  border-bottom: 1px solid rgba(221,221,221, .3);
+}
+.forum-topics th,
+.forum-topics td {
+  
+  /* Example border styling */
+  padding: 8px;
+  /* Adjust padding as needed */
+  text-align: left;
+  /* Align text to the left */
+}

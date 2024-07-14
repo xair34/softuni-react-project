@@ -1,0 +1,77 @@
+{
+    "sections": {
+        "dev": {
+            "name": "Announcments & Development",
+            "icon": "path/to/dev-icon.png",
+            "description": "Updates and announcements from the development team.",
+            "subsections": [
+                {
+                    "name": "Announcements",
+                    "icon": "https://example.com/icons/announcements.png",
+                    "description": "Read official updates and announcements from the development team."
+                },
+                {
+                    "name": "Patch Notes",
+                    "icon": "https://example.com/icons/patch-notes.png",
+                    "description": "Detailed information about the latest patches and updates."
+                }
+            ]
+        },
+        "community": {
+            "name": "Community",
+            "icon": "path/to/community-icon.png",
+            "description": "General discussion and community topics.",
+            "subsections": [
+                {
+                    "name": "General",
+                    "icon": "https://example.com/icons/general.png",
+                    "description": "For general discussion about the game and the community."
+                },
+                {
+                    "name": "Off Topic",
+                    "icon": "https://example.com/icons/off-topic.png",
+                    "description": "For off-topic discussions unrelated to the game."
+                }
+            ]
+        },
+        "classes": {
+            "name": "Builds and Classes",
+            "icon": "path/to/classes-icon.png",
+            "description": "Discussions about different character classes.",
+            "subsections": [
+                {
+                    "name": "Warrior",
+                    "icon": "https://example.com/icons/warrior.png",
+                    "description": "Discussion about the Warrior class and its specializations."
+                },
+                {
+                    "name": "Rogue",
+                    "icon": "https://example.com/icons/rogue.png",
+                    "description": "Discussion about the Rogue class and its specializations."
+                },
+                {
+                    "name": "Mage",
+                    "icon": "https://example.com/icons/mage.png",
+                    "description": "Discussion about the Mage class and its specializations."
+                }
+            ]
+        },
+        "support": {
+            "text": "Support",
+            "icon": "path/to/support-icon.png",
+            "description": "Customer support and bug reporting.",
+            "subsections": [
+                {
+                    "name": "Customer Service",
+                    "icon": "https://example.com/icons/customer-service.png",
+                    "description": "Get help from customer service."
+                },
+                {
+                    "name": "Bug Reports",
+                    "icon": "https://example.com/icons/bug-reports.png",
+                    "description": "Report bugs and technical issues."
+                }
+            ]
+        }
+    }
+}
