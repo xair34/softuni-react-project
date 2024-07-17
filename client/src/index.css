@@ -71,3 +71,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.link-name{
+  text-transform: capitalize;
+}
+.capitalize{
+  text-transform: capitalize;
+}

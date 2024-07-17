@@ -1,0 +1,10 @@
+.topic-row{
+    display: flex;
+    gap: 1em;
+}
+
+.user-avatar-icon{
+    height: 64px;
+    width: 64px;
+}
+
