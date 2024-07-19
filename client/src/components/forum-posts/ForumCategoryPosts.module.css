@@ -1,0 +1,13 @@
+.forum-topics {
+  width: 100%;
+  border-collapse: collapse;
+}
+.forum-topics tr{
+  border-bottom: 1px solid rgba(221,221,221, .3);
+}
+.forum-topics th,
+.forum-topics td {
+  
+  padding: 8px;
+  text-align: left;
+}

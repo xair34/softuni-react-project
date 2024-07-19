@@ -1,0 +1,12 @@
+.forum-section{
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    border: 1px solid rgba(221,221,221,.3);
+    padding:16px;
+}
+
+.forum-section-icon img{
+    width: 64px;
+    height: 64px;
+}

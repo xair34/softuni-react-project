@@ -1,0 +1,81 @@
+{
+    "sections": {
+        "dev": {
+            "displayOrder": 1,
+            "name": "Announcments & Development",
+            "icon": "path/to/dev-icon.png",
+            "description": "Updates and announcements from the development team.",
+            "subsections": [
+                {
+                    "name": "Announcements",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/dd8782b11cf2a0f9b50efa0a7025b39f3619ef77.png",
+                    "description": "Read official updates and announcements from the development team."
+                },
+                {
+                    "name": "Patch Notes",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/2X/f/f126f9d24836c2a6edd6c370a3d35acfb42cbea6.png",
+                    "description": "Detailed information about the latest patches and updates."
+                }
+            ]
+        },
+        "community": {
+            "displayOrder": 2,
+            "name": "Community",
+            "icon": "path/to/community-icon.png",
+            "description": "General discussion and community topics.",
+            "subsections": [
+                {
+                    "name": "General",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/8f23217716fcdb92c8d66087d43c9d874e4edcac.png",
+                    "description": "For general discussion about the game and the community."
+                },
+                {
+                    "name": "Off Topic",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/8f23217716fcdb92c8d66087d43c9d874e4edcac.png",
+                    "description": "For off-topic discussions unrelated to the game."
+                }
+            ]
+        },
+        "classes": {
+            "displayOrder": 3,
+            "name": "Builds and Classes",
+            "icon": "path/to/classes-icon.png",
+            "description": "Discussions about different character classes.",
+            "subsections": [
+                {
+                    "name": "Warrior",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                    "description": "Discussion about the Warrior class and its specializations."
+                },
+                {
+                    "name": "Rogue",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                    "description": "Discussion about the Rogue class and its specializations."
+                },
+                {
+                    "name": "Mage",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                    "description": "Discussion about the Mage class and its specializations."
+                }
+            ]
+        },
+        "support": {
+            "displayOrder": 4,
+            "name": "Support",
+            "icon": "path/to/support-icon.png",
+            "description": "Customer support and bug reporting.",
+            "subsections": [
+                {
+                    "name": "Customer Service",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/ae4931b44e04d656f709a8eb68c6d31b0f58349a.png",
+                    "description": "Get help from customer service."
+                },
+                {
+                    "name": "Bug Reports",
+                    "icon": "https://forum.lastepoch.com/uploads/default/original/1X/ae4931b44e04d656f709a8eb68c6d31b0f58349a.png",
+                    "description": "Report bugs and technical issues."
+                }
+            ]
+        }
+    }
+}
