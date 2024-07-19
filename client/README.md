@@ -1,8 +1,35 @@
-# React + Vite
+- Install react bootstrap - npm install react-bootstrap bootstrap
+- Add import 'bootstrap/dist/css/bootstrap.min.css'; to App.jsx
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. At least 3 dynamic pages - DONE
+## 2. Catalog / detail views - In progress
+## 3. User collection - In progress
+ * Logged in users can post replies and create new posts
+ * Guests can browse the forum and read existing posts, can view user profiles (optional, if user set account to private cannot be viewed by anyone except admin)
+ * Admin - can create posts in admin only sections, delete comments, delete entire posts, lock an entire post, ban users if they misconduct
+## 4. Use react.js for the client-side - Will be done at the end of the project
+## 5. Communicate to a remote service - DONE
+## 6. Implement authentication - In progress
+## 7. Implement client-side routing with at least 5 pages (2 with parameters) - DONE
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 8. Add error handling and data validation - In progress
+## 9. Divide application into components - In progress / Done
+## 10. Use proper folder structure - In progress / Done
+## 11. Brief documentation - will do at the end
+## 12. Demonstrate use of:
+ * React hooks - Done
+ * Context API - In progress
+ * stateless and stateful components - In progress
+ * Bound forms - In progress
+ * Synthetic events - In Progress
+ * Component Lifecycle (mount, update, unmount) - In progress
+## 13. Component styling with css - In progress
+## 14. Implement routing guards for private and public - In progress
+## 15. Good UI/UX - In progress
+## 16. Github repo - Done
+## BONUS SECTION
+## 1.Use a state management solution (React Redux) instead of Context API - will read on it
+## 2. Write Unit Tests for your code - probably will do 
+## 3. Use a file storage cloud API, e.g., Dropbox, Google Drive, or other for storing the files - will implement 
+## 4. Connect to an external API, like Google Maps, AccuWeather, etc. - DONE
+## 5. Deploy the application in a cloud (Heroku, Firebase) - will attempt
