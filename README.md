@@ -22,7 +22,7 @@
  * stateless and stateful components - Done
  * Bound forms - Done
  * Synthetic events - Done
- * Component Lifecycle (mount, update, unmount) - In progress
+ * Component Lifecycle (mount, update, unmount) - Done mount/ Update and Unmount are In progress
 ## 13. Component styling with css - In progress
 ## 14. Implement routing guards for private and public - In progress
 ## 15. Good UI/UX - In progress
