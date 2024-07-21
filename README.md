@@ -25,11 +25,11 @@
  * Synthetic events - Done
  * Component Lifecycle (mount, update, unmount) - Done mount/ Update and Unmount are In progress
 ## 13. Component styling with css - In progress
-## 14. Implement routing guards for private and public - In progress
+## 14. Implement routing guards for private and public - Done
 ## 15. Good UI/UX - In progress
 ## 16. Github repo - Done
 ## BONUS SECTION
-## 1.Use a state management solution (React Redux) instead of Context API - will read on it
+## 1. Use a state management solution (React Redux) instead of Context API - will read on it
 ## 2. Write Unit Tests for your code - probably will do 
 ## 3. Use a file storage cloud API, e.g., Dropbox, Google Drive, or other for storing the files - will implement 
 ## 4. Connect to an external API, like Google Maps, AccuWeather, etc. - Done
