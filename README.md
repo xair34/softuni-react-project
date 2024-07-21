@@ -1,5 +1,6 @@
 - Install react bootstrap - npm install react-bootstrap bootstrap
-- Add import 'bootstrap/dist/css/bootstrap.min.css'; to App.jsx
+- Install firebase
+- Install react-router-dom
 
 ## 1. At least 3 dynamic pages - DONE
 ## 2. Catalog / detail views - DONE
