@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import styles from "./ForumCategoryPosts.module.css";
+import PageNotFound from '../page-not-found/PageNotFound';
 
 const dummyTopics = {
   "announcements": [
@@ -44,6 +45,9 @@ export default function ForumCategoryPosts() {
   const { categoryName } = useParams();
   const topics = dummyTopics[categoryName.toLowerCase().replace(/ /g, '-')];
 
+  if(!topics){
+    return <PageNotFound/>;
+  }
   return (
     <>
       <div>

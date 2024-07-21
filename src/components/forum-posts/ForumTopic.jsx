@@ -12,7 +12,6 @@ export default function ForumTopic() {
 
     return (
         <>
-          
             <div>
                 <div>  <Link to={`/${categoryName}`} className='link-name'>Back to {categoryName}</Link></div>
                 <h3>{topicName.replace(/-/g, ' ')}</h3>

@@ -12,6 +12,10 @@ import Row from 'react-bootstrap/Row';
 import { AuthProvider } from './services/authContext';
 import UserProfile from './components/user-profile/UserProfile';
 import PageNotFound from './components/page-not-found/PageNotFound';
+import ProtectedRoute from './components/protected-route/ProtectedRoute';
+import { Navigate } from 'react-router-dom';
+
+
 function App() {
   return (
     <AuthProvider>
@@ -23,13 +27,13 @@ function App() {
           <Container>
             <Row>
               <Routes>
-                <Route path="*" element={<PageNotFound/>}/>
-                <Route path="/:categoryName" element={<ForumCategoryPosts />} />
                 <Route path="/" element={<ForumSections />} />
+                <Route path="/:categoryName" element={<ForumCategoryPosts />} />
                 <Route path="/:categoryName/:topicName" element={<ForumTopic />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<UserProfile/>}/>
+                <Route path="/profile" element={<ProtectedRoute element={<UserProfile/>}/>}/>
+                <Route path="*" element={<PageNotFound/>}/>
               </Routes>
             </Row>
           </Container>
