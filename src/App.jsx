@@ -12,8 +12,7 @@ import Row from 'react-bootstrap/Row';
 import { AuthProvider } from './services/authContext';
 import UserProfile from './components/user-profile/UserProfile';
 import PageNotFound from './components/page-not-found/PageNotFound';
-import ProtectedRoute from './components/protected-route/ProtectedRoute';
-import { Navigate } from 'react-router-dom';
+import { ProtectedRoutes, PublicRoutes } from './utils/RouteGuard';
 
 
 function App() {
@@ -27,13 +26,17 @@ function App() {
           <Container>
             <Row>
               <Routes>
+                <Route element={<ProtectedRoutes />}>
+                  <Route path="/profile" element={<UserProfile />} />
+                </Route>
+                <Route element={<PublicRoutes />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Route>
                 <Route path="/" element={<ForumSections />} />
                 <Route path="/:categoryName" element={<ForumCategoryPosts />} />
                 <Route path="/:categoryName/:topicName" element={<ForumTopic />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<ProtectedRoute element={<UserProfile/>}/>}/>
-                <Route path="*" element={<PageNotFound/>}/>
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </Row>
           </Container>

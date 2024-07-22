@@ -10,9 +10,8 @@
  * Admin - can create posts in admin only sections, delete comments, delete entire posts, lock an entire post, ban users if they misconduct
 ## 4. Use react.js for the client-side - Done
 ## 5. Communicate to a remote service - Done
-## 6. Implement authentication - In progress
+## 6. Implement authentication - Done
 ## 7. Implement client-side routing with at least 5 pages (2 with parameters) - Done
-
 ## 8. Add error handling and data validation - In progress
 ## 9. Divide application into components - Done
 ## 10. Use proper folder structure - Done

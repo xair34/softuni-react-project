@@ -12,7 +12,6 @@ export default function ChangeEmail({
     currentUserPassowrd
 }) {
     const { currentUser, changeEmail } = useAuth();
-    console.log(currentUser)
     const [currentEmail, setCurrentEmail] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [password, setPassword] = useState('');
