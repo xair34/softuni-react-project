@@ -1,10 +1,11 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { useAuth } from '../../services/authContext';
 import { useNavigate } from 'react-router-dom';
 import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 
 export default function ChangeEmail({

@@ -3,20 +3,24 @@ import styles from "./ForumCategoryPosts.module.css";
 import PageNotFound from '../page-not-found/PageNotFound';
 import { useEffect, useState } from 'react';
 import GetSectionPosts from '../../services/forumPosts';
+import { useAuth } from '../../services/authContext';
+import CreateTopic from './CreateTopic';
 
 export default function ForumCategoryPosts() {
   const { categoryName } = useParams();
-  const [topics, setTopics] = useState(null); // Adjust initial state
+  const [topics, setTopics] = useState(null);
+  const [createNewTopic, setCreateNewTopic] = useState(false);
+
+  const handleCreateNewTopic = () => {
+    setCreateNewTopic(!createNewTopic);
+  }
 
   useEffect(() => {
     (async () => {
       var temp = await GetSectionPosts(categoryName);
       setTopics(temp);
     })()
-  }, [categoryName]); // Include categoryName as a dependency
-
-  console.log(categoryName);
-  console.log(topics);
+  }, [categoryName]); 
 
   if (topics === null) {
     return <PageNotFound />;
@@ -25,6 +29,10 @@ export default function ForumCategoryPosts() {
   return (
     <>
       {topics ? (
+        <div>
+          <button onClick={handleCreateNewTopic}>Add topic</button>
+          {createNewTopic ? <CreateTopic categoryName={categoryName}/> : ""}
+
         <div>
           <div><Link to={`/`}>Back to Main</Link></div>
           <h3 className='capitalize'>{categoryName}</h3>
@@ -48,6 +56,7 @@ export default function ForumCategoryPosts() {
               )) : <tr><td colSpan="3">No topics available</td></tr>}
             </tbody>
           </table>
+        </div>
         </div>
       ) : (<h3>Loading...</h3>)}
     </>

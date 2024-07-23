@@ -1,18 +1,21 @@
 import { Router, Routes, Route } from 'react-router-dom';
-import ForumSections from './components/forum-sections/ForumSections';
-import './App.css';
-import NavigationMenu from './components/navigation/NavigationMenu';
-import ForumCategoryPosts from './components/forum-posts/ForumCategoryPosts';
-import ForumTopic from './components/forum-posts/ForumTopic';
+
+import { AuthProvider } from './services/authContext';
+import { ProtectedRoutes, PublicRoutes } from './utils/RouteGuard';
+
 import Login from './components/login/Login';
 import Register from './components/register/Register';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import { AuthProvider } from './services/authContext';
+import ForumTopic from './components/forum-posts/ForumTopic';
 import UserProfile from './components/user-profile/UserProfile';
+import ForumSections from './components/forum-sections/ForumSections';
 import PageNotFound from './components/page-not-found/PageNotFound';
-import { ProtectedRoutes, PublicRoutes } from './utils/RouteGuard';
+import NavigationMenu from './components/navigation/NavigationMenu';
+import ForumCategoryPosts from './components/forum-posts/ForumCategoryPosts';
+
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 
 function App() {

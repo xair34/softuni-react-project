@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ForumSection from './ForumSection';
 import GetSections from '../../services/sectionService.js';
+
 export default function ForumCategories() {
     const [sections, setSections] = useState([]);
     useEffect(() => {

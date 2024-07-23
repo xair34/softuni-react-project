@@ -1,7 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./ForumTopic.module.css";
+import { useAuth } from "../../services/authContext";
 
 export default function ForumTopic() {
+
+
     const { categoryName, topicName } = useParams();
     const dummyComments = [
         { username: 'xair34', comment: 'asfklasdkljghjlkajsdgasdg', avatarIcon: 'https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png' },

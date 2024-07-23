@@ -13,7 +13,7 @@ export default function UserProfile() {
             navigate('/');
         }
         catch (error) {
-            console.error('fail', error);
+            console.error('Unable to logout at this time', error);
         }
     }
 
