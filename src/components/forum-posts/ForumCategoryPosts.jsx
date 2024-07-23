@@ -10,6 +10,8 @@ export default function ForumCategoryPosts() {
   const { categoryName } = useParams();
   const [topics, setTopics] = useState(null);
   const [createNewTopic, setCreateNewTopic] = useState(false);
+  const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   const handleCreateNewTopic = () => {
     setCreateNewTopic(!createNewTopic);
@@ -17,21 +19,37 @@ export default function ForumCategoryPosts() {
 
   useEffect(() => {
     (async () => {
-      var temp = await GetSectionPosts(categoryName);
-      setTopics(temp);
-    })()
-  }, [categoryName]); 
+      try {
+        var sectionPosts = await GetSectionPosts(categoryName);
+        setTopics(sectionPosts);
+      }
+      catch (error) {
+        console.error('Unable to get forum posts at this time:', error);
+      }
+      finally {
+        setLoading(false);
+      }
 
+    })()
+  }, [categoryName]);
+
+  if (loading) {
+    return <h3>Loading...</h3>;
+  }
   if (topics === null) {
     return <PageNotFound />;
   }
 
   return (
     <>
-      {topics ? (
-        <div>
-          <button onClick={handleCreateNewTopic}>Add topic</button>
-          {createNewTopic ? <CreateTopic categoryName={categoryName}/> : ""}
+      <div>
+        {currentUser ?
+          <div>
+            <button onClick={handleCreateNewTopic}>Add topic</button>
+            {createNewTopic ? <CreateTopic categoryName={categoryName} /> : ""}
+          </div>
+          : ""}
+
 
         <div>
           <div><Link to={`/`}>Back to Main</Link></div>
@@ -57,8 +75,7 @@ export default function ForumCategoryPosts() {
             </tbody>
           </table>
         </div>
-        </div>
-      ) : (<h3>Loading...</h3>)}
+      </div>
     </>
   );
 }
