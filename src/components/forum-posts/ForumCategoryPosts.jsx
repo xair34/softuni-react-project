@@ -43,12 +43,12 @@ export default function ForumCategoryPosts() {
   return (
     <>
       <div>
-        {currentUser ?
+        {currentUser && (
           <div>
             <button onClick={handleCreateNewTopic}>Add topic</button>
-            {createNewTopic ? <CreateTopic categoryName={categoryName} /> : ""}
+            {createNewTopic && <CreateTopic categoryName={categoryName} />}
           </div>
-          : ""}
+        )}
 
 
         <div>
