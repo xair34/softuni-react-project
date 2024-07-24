@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from "react";
-import { useAuth } from '../../services/authContext';
+import { useAuth } from '../../../services/authContext';
 import { useNavigate } from 'react-router-dom';
 import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 

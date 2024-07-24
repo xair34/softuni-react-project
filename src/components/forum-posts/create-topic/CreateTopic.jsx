@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from '../../utils/firebase';
+import { db } from '../../../utils/firebase';
 import { ref, push } from 'firebase/database';
 export default function CreateTopic({
     categoryName

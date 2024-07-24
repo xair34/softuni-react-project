@@ -12,4 +12,3 @@ export default async function GetSections() {
         console.error("Failed to fetch sections:", error);
     }
 }
-

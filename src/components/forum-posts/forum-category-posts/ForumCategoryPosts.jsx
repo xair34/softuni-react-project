@@ -1,10 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import styles from "./ForumCategoryPosts.module.css";
-import PageNotFound from '../page-not-found/PageNotFound';
+import PageNotFound from '../../page-not-found/PageNotFound';
 import { useEffect, useState } from 'react';
-import GetSectionPosts from '../../services/forumPosts';
-import { useAuth } from '../../services/authContext';
-import CreateTopic from './CreateTopic';
+import GetSectionPosts from '../../../services/forumPosts';
+import { useAuth } from '../../../services/authContext';
+import CreateTopic from '../create-topic/CreateTopic';
 
 export default function ForumCategoryPosts() {
   const { categoryName } = useParams();
@@ -39,7 +39,6 @@ export default function ForumCategoryPosts() {
   if (topics === null) {
     return <PageNotFound />;
   }
-
   return (
     <>
       <div>
@@ -49,8 +48,6 @@ export default function ForumCategoryPosts() {
             {createNewTopic && <CreateTopic categoryName={categoryName} />}
           </div>
         )}
-
-
         <div>
           <div><Link to={`/`}>Back to Main</Link></div>
           <h3 className='capitalize'>{categoryName}</h3>
@@ -59,7 +56,7 @@ export default function ForumCategoryPosts() {
               <tr>
                 <td>Topic</td>
                 <td>Replies</td>
-                <td>Views</td>
+                <td>Owner</td>
               </tr>
             </thead>
             <tbody>
@@ -68,8 +65,8 @@ export default function ForumCategoryPosts() {
                   <td className="topic-name">
                     <Link to={`/${categoryName}/${topic.topicName.replace(/ /g, '-')}`}>{topic.topicName}</Link>
                   </td>
-                  <td className="replies">{topic.replies}</td>
-                  <td className="views">{topic.views}</td>
+                  <td className="replies">{topic.comments ? Object.entries(topic.comments).length : 0}</td>
+                  <td className="views">{topic.owner}</td>
                 </tr>
               )) : <tr><td colSpan="3">No topics available</td></tr>}
             </tbody>

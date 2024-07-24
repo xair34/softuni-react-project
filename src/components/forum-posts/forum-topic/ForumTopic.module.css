@@ -1,0 +1,20 @@
+.topic-row{
+    display: grid;
+    grid-template-columns: 240px minmax(240px, 1fr) 240px;
+    gap: 1em;
+    border-top: 1px solid rgba(221,221,221,.4);
+    padding: 16px;
+}
+.topic-container{
+    display: grid;
+    gap: 1em;
+}
+.user-avatar-icon{
+    height: 64px;
+    width: 64px;
+}
+
+.user-avatar-and-name{
+    display: flex;
+    gap: .5em;
+}

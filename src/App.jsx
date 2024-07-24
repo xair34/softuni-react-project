@@ -5,12 +5,12 @@ import { ProtectedRoutes, PublicRoutes } from './utils/RouteGuard';
 
 import Login from './components/login/Login';
 import Register from './components/register/Register';
-import ForumTopic from './components/forum-posts/ForumTopic';
+import ForumTopic from './components/forum-posts/forum-topic/ForumTopic';
 import UserProfile from './components/user-profile/UserProfile';
 import ForumSections from './components/forum-sections/ForumSections';
 import PageNotFound from './components/page-not-found/PageNotFound';
 import NavigationMenu from './components/navigation/NavigationMenu';
-import ForumCategoryPosts from './components/forum-posts/ForumCategoryPosts';
+import ForumCategoryPosts from './components/forum-posts/forum-category-posts/ForumCategoryPosts';
 
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';

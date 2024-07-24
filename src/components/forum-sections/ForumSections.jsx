@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ForumSection from './ForumSection';
+import ForumSection from './forum-section/ForumSection';
 import GetSections from '../../services/sectionService.js';
 
 export default function ForumCategories() {

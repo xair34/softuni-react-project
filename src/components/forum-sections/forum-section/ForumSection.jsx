@@ -1,7 +1,6 @@
 import React from 'react';
-import ForumCategories from './ForumCategories';
 import styles from './ForumSection.module.css';
-
+import ForumCategories from '../forum-categories/ForumCategories';
 export default function ForumSection({
   name,
   title,

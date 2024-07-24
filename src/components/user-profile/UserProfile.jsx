@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../services/authContext";
 import { useNavigate } from "react-router-dom";
-import ChangeEmail from "./ChangeEmail";
+import ChangeEmail from "./change-email/ChangeEmail";
 export default function UserProfile() {
 
     const { currentUser, logout } = useAuth();
