@@ -3,14 +3,11 @@ import { ref, get } from "firebase/database";
 
 export default async function GetSectionPosts(sectionPost) {
   try {
+    var sectionPosts = {};
     const snapshot = await get(ref(db, `/forum-posts/${sectionPost}`));
-    if (snapshot.exists()) {
-      return Object.entries(snapshot.val());
-    } else {
-      return [];
-    }
-  } catch (error) {
+    sectionPosts = Object.entries(snapshot.val());
+  } 
+  catch (error) {
     console.error('Failed to fetch forum posts:', error);
-    return [];
   }
 }

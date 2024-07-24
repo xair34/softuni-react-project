@@ -2,8 +2,6 @@ import { db } from '../utils/firebase.js';
 import { ref, get, query, orderByChild, equalTo } from "firebase/database";
 
 export default async function GetComments(categoryName, topicName){
-    console.log(categoryName);
-    console.log(topicName);
     try{
         var comments = {};
         const postsRef = ref(db, `/forum-posts/${categoryName}`);

@@ -3,13 +3,12 @@ import styles from "./ForumTopic.module.css";
 import { useAuth } from "../../../services/authContext";
 import { useEffect, useState } from "react";
 import GetComments from "../../../services/forumPostComments";
-import { db } from "../../../utils/firebase";
-import { equalTo, get, orderByChild, query, ref } from "firebase/database";
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
     const [comments, setComments] = useState({});
     const [loading, setLoading] = useState(true);
+    
     
 
     useEffect(() => {
