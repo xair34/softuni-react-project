@@ -24,3 +24,7 @@
 .form{
     display: grid;
 }
+.link-name, .capitalize{
+    text-transform: capitalize;
+    text-decoration: none;
+}

@@ -32,7 +32,6 @@ export default function ForumCategoryPosts() {
 
     })()
   }, [categoryName]);
-
   if (loading) {
     return <h3>Loading...</h3>;
   }

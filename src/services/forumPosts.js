@@ -6,6 +6,7 @@ export default async function GetSectionPosts(sectionPost) {
     var sectionPosts = {};
     const snapshot = await get(ref(db, `/forum-posts/${sectionPost}`));
     sectionPosts = Object.entries(snapshot.val());
+    return sectionPosts;
   } 
   catch (error) {
     console.error('Failed to fetch forum posts:', error);

@@ -1,15 +1,46 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./ForumTopic.module.css";
 import { useAuth } from "../../../services/authContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GetComments from "../../../services/forumPostComments";
+import AddReply from "../add-reply/AddReply";
+
+import Button from "react-bootstrap/esm/Button";
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Pagination from 'react-bootstrap/Pagination';
+
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
-    const [comments, setComments] = useState({});
     const [loading, setLoading] = useState(true);
-    
-    
+    const [comments, setComments] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [showAddNewReply, setShowAddNewReply] = useState(false);
+
+    const [userMessage, setUserMessage] = useState('');
+
+    const { currentUser } = useAuth();
+    const target = useRef(null)
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => {
+        setShowModal(true)
+        showAddNewReply
+    };
+    const handleAddReply = () => {
+        setShowAddNewReply(!showAddNewReply);
+        handleShowModal();
+        if (!currentUser) {
+            setShowPopup(true);
+            setUserMessage('You need to be logged in to be able to post a reply');
+            setTimeout(() => {
+                setShowPopup(false)
+            }, 2000);
+        }
+    }
+
 
     useEffect(() => {
         (async () => {
@@ -17,7 +48,6 @@ export default function ForumTopic() {
                 var id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
-                console.log(temp_comments)
                 setLoading(false);
             }
             catch (error) {
@@ -25,7 +55,7 @@ export default function ForumTopic() {
             }
 
         })()
-    }, [categoryName,topicName]);
+    }, [categoryName, topicName]);
     if (loading) {
         return <h3>Loading...</h3>
     }
@@ -35,7 +65,19 @@ export default function ForumTopic() {
     return (
         <div>
             <div>  <Link to={`/${categoryName}`} className='link-name'>Back to {categoryName}</Link></div>
-            <h3>{topicName.replace(/-/g, ' ')}</h3>
+            <div className={styles['topic-name-and-reply-button-container']}>
+                <h3>{topicName.replace(/-/g, ' ')}</h3>
+                <div className={styles["tooltip-container"]} >
+                    <Button variant="secondary" type="submit" className="btn-center m-3" onClick={handleAddReply} ref={target} >Add reply</Button>
+                    <Overlay target={target.current} show={showPopup} placement="right">
+                        {(props) => (
+                            <Tooltip id="overlay-example" {...props}>
+                                {userMessage}
+                            </Tooltip>
+                        )}
+                    </Overlay>
+                </div>
+            </div>
             <div className={styles['topic-container']}>
                 {comments.map(([key, comment]) => (
                     <div key={key} className={styles['topic-row']}>
@@ -47,11 +89,24 @@ export default function ForumTopic() {
                             <p>{comment.text}</p>
                         </div>
                         <div>
-                            time of posting
+                            Posted: {comment.timeOfPosting}
                         </div>
                     </div>
                 ))}
+                <div>
+                    {showModal && currentUser &&  (
+                        <Offcanvas show={showModal} onHide={handleCloseModal} placement="bottom" name="bottom" scroll={true} backdrop={false} className={styles["reply-post-container"]}>
+                        <Offcanvas.Header closeButton>
+                          <Offcanvas.Title>Type your reply here</Offcanvas.Title>
+                        </Offcanvas.Header>
+                        <Offcanvas.Body>
+                          <AddReply/>
+                        </Offcanvas.Body>
+                      </Offcanvas>
+                    )}
+                </div>
             </div>
+
         </div>
     );
 }

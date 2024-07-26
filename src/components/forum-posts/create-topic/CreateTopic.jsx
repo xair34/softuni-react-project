@@ -21,7 +21,7 @@ export default function CreateTopic({
         try {
             const newTopicRef = ref(db, `forum-posts/${categoryName}`);
             await push(newTopicRef, {
-                topicName,
+                topicTitle,
                 topicText,
                 replies: 0,
                 views: 0,

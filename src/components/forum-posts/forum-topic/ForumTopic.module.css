@@ -18,3 +18,18 @@
     display: flex;
     gap: .5em;
 }
+
+.topic-name-and-reply-button-container{
+    display: flex;
+    justify-content: space-between;
+}
+.tooltip-container{
+    position: relative;
+}
+
+.reply-post-container.reply-post-container.reply-post-container{
+   border: 3px solid rgba(221,221,221,.4);
+   max-width: 1280px;
+   width: 100%;
+   margin: auto
+}
