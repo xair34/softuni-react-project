@@ -1,3 +1,5 @@
+# This is a Discussion Forum Project for a SoftUni course using ReactJS. Below are the dependencies needed in order for the project to run properly.
+
 - Install react bootstrap - npm install react-bootstrap bootstrap
 - Install firebase
 - Install react-router-dom
