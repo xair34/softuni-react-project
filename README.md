@@ -33,3 +33,6 @@
 ## 3. Use a file storage cloud API, e.g., Dropbox, Google Drive, or other for storing the files - will implement 
 ## 4. Connect to an external API, like Google Maps, AccuWeather, etc. - Done
 ## 5. Deploy the application in a cloud (Heroku, Firebase) - will attempt
+
+# Disclaimer: This project uses images and other assets from the Last Epoch game website (https://forum.lastepoch.com/). All rights to these images and assets are owned by Eleventh Hour Games, the creators of Last Epoch. These assets are used here for educational and non-commercial purposes only. 
+# No copyright infringement is intended, and this project is not affiliated with or endorsed by Eleventh Hour Games. If there are any issues with the use of these assets, please contact me, and I'll promptly remove them.
