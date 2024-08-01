@@ -1,5 +1,5 @@
 import { db } from '.././utils/firebase.js';
-import { ref, set, onValue, get } from "firebase/database";
+import { ref, get } from "firebase/database";
 
 
 export default async function GetSections() {

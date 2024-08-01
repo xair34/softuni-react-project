@@ -9,7 +9,9 @@ import {currentDate} from '../../../utils/dateFormatter';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-export default function AddReply() {
+export default function AddReply({
+    commentAdded
+}) {
     const [reply, setReply] = useState('');
     const {currentUser} = useAuth();
     const {categoryName, topicName} = useParams();
@@ -20,7 +22,6 @@ export default function AddReply() {
     
     const handleReplySubmit = async (e) =>{
         e.preventDefault();
-        
         try{
             const id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
             const postsRef = ref(db, `/forum-posts/${categoryName}`);
@@ -45,6 +46,7 @@ export default function AddReply() {
                 const topicRef = ref(db, `/forum-posts/${categoryName}/${topicKey}`)
 
                 await update(topicRef,{comments: topic.comments});
+                commentAdded(Object.entries(topic.comments));
                 setReply('');
             }
             

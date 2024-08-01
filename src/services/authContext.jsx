@@ -35,8 +35,6 @@ export const AuthProvider = ({ children }) => {
         return auth.signOut();
     };
 
-
-
     const value = {
         currentUser,
         login,

@@ -16,7 +16,7 @@ export default function UserProfile() {
             console.error('Unable to logout at this time', error);
         }
     }
-
+    console.log(currentUser);
     return (
         <div>
             {

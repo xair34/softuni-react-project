@@ -10,25 +10,32 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Pagination from 'react-bootstrap/Pagination';
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Modal from 'react-bootstrap/Modal';
+import { query, ref, orderByChild, equalTo, get, remove } from "firebase/database";
+import { db } from "../../../utils/firebase";
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
+
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState({});
+
     const [showPopup, setShowPopup] = useState(false);
+
     const [showModal, setShowModal] = useState(false);
     const [showAddNewReply, setShowAddNewReply] = useState(false);
+    const [showConfrimDeleteModal, setShowConfirmDeleteModal] = useState(false);
+    
+
+    const handleCloseDelModal = () => setShowConfirmDeleteModal(false);
+    const handleShowDelModal = () => setShowConfirmDeleteModal(true);
 
     const [userMessage, setUserMessage] = useState('');
-
     const { currentUser } = useAuth();
     const target = useRef(null)
     const handleCloseModal = () => setShowModal(false);
-    const handleShowModal = () => {
-        setShowModal(true)
-        showAddNewReply
-    };
+    const handleShowModal = () => setShowModal(true);
     const handleAddReply = () => {
         setShowAddNewReply(!showAddNewReply);
         handleShowModal();
@@ -40,8 +47,39 @@ export default function ForumTopic() {
             }, 2000);
         }
     }
+    const handleChildAction = (updatedComments) => {
+        setComments(updatedComments);
+        setShowModal(false);
+    }
+    const handleDeleteComment = async (commentKey) => {
+        try {
+            const id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
+            const postsRef = ref(db, `/forum-posts/${categoryName}`);
+            const topicQuery = query(postsRef, orderByChild('id'), equalTo(id_topic_name));
+            const snapshot = await get(topicQuery);
 
+            if (snapshot.exists()) {
+                const topicKey = Object.keys(snapshot.val())[0];
+                const topic = snapshot.val()[topicKey];
 
+                if (!topic.comments || !topic.comments[commentKey]) {
+                    console.log('Comment not found');
+                    return;
+                }
+
+                const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentKey}`);
+                // await remove(commentRef);
+                // var temp_comments = await GetComments(categoryName, id_topic_name);
+                // setComments(temp_comments);
+
+                console.log('Comment deleted successfully');
+            } else {
+                console.log('Topic not found');
+            }
+        } catch (error) {
+            console.error('Failed to delete comment', error);
+        }
+    };
     useEffect(() => {
         (async () => {
             try {
@@ -79,6 +117,11 @@ export default function ForumTopic() {
                 </div>
             </div>
             <div className={styles['topic-container']}>
+                <div className={styles['topic-row']}>
+                    <p>User</p>
+                    <p>Comment</p>
+                    <p>Time of posting</p>
+                </div>
                 {comments.map(([key, comment]) => (
                     <div key={key} className={styles['topic-row']}>
                         <div className={styles["user-avatar-and-name"]}>
@@ -88,25 +131,56 @@ export default function ForumTopic() {
                         <div className={['username-and-comment']}>
                             <p>{comment.text}</p>
                         </div>
-                        <div>
-                            Posted: {comment.timeOfPosting}
+                        <div className={styles['user-actions']}>
+                            {comment.timeOfPosting}
+                            {comment.userName == currentUser.email.split("@")[0] ? (
+                                <div>
+                                    <OverlayTrigger
+                                        placement="right"
+                                        delay={{ show: 500, hide: 400 }}
+                                        overlay={
+                                            <Tooltip id={`tooltip-right`} >
+                                                Delete comment
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <Button variant="outline-danger" onClick={() => handleDeleteComment(key)}>X</Button>
+                                    </OverlayTrigger>
+                                </div>
+                            ) : ""}
                         </div>
+
                     </div>
                 ))}
                 <div>
-                    {showModal && currentUser &&  (
+                    {showModal && currentUser && (
                         <Offcanvas show={showModal} onHide={handleCloseModal} placement="bottom" name="bottom" scroll={true} backdrop={false} className={styles["reply-post-container"]}>
-                        <Offcanvas.Header closeButton>
-                          <Offcanvas.Title>Type your reply here</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                          <AddReply/>
-                        </Offcanvas.Body>
-                      </Offcanvas>
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Type your reply here</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <AddReply commentAdded={handleChildAction} />
+                            </Offcanvas.Body>
+                        </Offcanvas>
                     )}
                 </div>
             </div>
-
+            <div>
+                <Modal show={showConfrimDeleteModal} onHide={handleCloseDelModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>You're about to delete your comment</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure you want to delete the comment?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseDelModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleCloseDelModal}>
+                            Yes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         </div>
     );
 }

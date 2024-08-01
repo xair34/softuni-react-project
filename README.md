@@ -5,9 +5,9 @@
 ## 1. At least 3 dynamic pages - Done
 ## 2. Catalog / detail views - Done
 ## 3. User collection - In progress
- * Logged in users can post replies and create new posts
- * Guests can browse the forum and read existing posts, can view user profiles (optional, if user set account to private cannot be viewed by anyone except admin)
- * Admin - can create posts in admin only sections, delete comments, delete entire posts, lock an entire post, ban users if they misconduct
+ * Logged in users can post replies and create new posts - Done
+ * Guests can browse the forum and read existing posts, can view user profiles (optional, if user set account to private cannot be viewed by anyone except admin) - Done
+ * Admin - can create posts in admin only sections, delete comments, delete entire posts, lock an entire post, ban users if they misconduct - In progress
 ## 4. Use react.js for the client-side - Done
 ## 5. Communicate to a remote service - Done
 ## 6. Implement authentication - Done
@@ -22,7 +22,7 @@
  * stateless and stateful components - Done
  * Bound forms - Done
  * Synthetic events - Done
- * Component Lifecycle (mount, update, unmount) - Done mount/ Update and Unmount are In progress
+ * Component Lifecycle (mount, update, unmount) - Done
 ## 13. Component styling with css - In progress
 ## 14. Implement routing guards for private and public - Done
 ## 15. Good UI/UX - In progress
@@ -30,6 +30,6 @@
 ## BONUS SECTION
 ## 1. Use a state management solution (React Redux) instead of Context API - will read on it
 ## 2. Write Unit Tests for your code - probably will do 
-## 3. Use a file storage cloud API, e.g., Dropbox, Google Drive, or other for storing the files - will implement 
+## 3. Use a file storage cloud API, e.g., Dropbox, Google Drive, or other for storing the files - will try to implement 
 ## 4. Connect to an external API, like Google Maps, AccuWeather, etc. - Done
-## 5. Deploy the application in a cloud (Heroku, Firebase) - will attempt
+## 5. Deploy the application in a cloud (Heroku, Firebase) - will try to attempt

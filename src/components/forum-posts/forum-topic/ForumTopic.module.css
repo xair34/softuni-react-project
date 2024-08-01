@@ -2,8 +2,10 @@
     display: grid;
     grid-template-columns: 240px minmax(240px, 1fr) 240px;
     gap: 1em;
-    border-top: 1px solid rgba(221,221,221,.4);
     padding: 16px;
+}
+.topic-row:not(:first-child){
+    border-top: 1px solid rgba(221,221,221,.4);
 }
 .topic-container{
     display: grid;
@@ -32,4 +34,8 @@
    max-width: 1280px;
    width: 100%;
    margin: auto
+}
+.user-actions{
+    display: flex;
+    gap: 1em;
 }
