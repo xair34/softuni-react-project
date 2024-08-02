@@ -5,9 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useParams } from "react-router-dom";
 import { db } from '../../../utils/firebase';
 import { ref, orderByChild, equalTo, query, get, update } from 'firebase/database';
-import {currentDate} from '../../../utils/dateFormatter';
+import {getCurrentFormattedDate} from '../../../utils/dateFormatter';
 
-import Offcanvas from 'react-bootstrap/Offcanvas';
 
 export default function AddReply({
     commentAdded
@@ -15,7 +14,7 @@ export default function AddReply({
     const [reply, setReply] = useState('');
     const {currentUser} = useAuth();
     const {categoryName, topicName} = useParams();
-
+    const currentDate = getCurrentFormattedDate();
     const handleReplyText = (e) =>{
         setReply(e.currentTarget.value);
     }

@@ -9,10 +9,10 @@ import Button from "react-bootstrap/esm/Button";
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Pagination from 'react-bootstrap/Pagination';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Modal from 'react-bootstrap/Modal';
-import { query, ref, orderByChild, equalTo, get, remove } from "firebase/database";
+import Form from 'react-bootstrap/Form';
+import { query, ref, orderByChild, equalTo, get, update, remove } from "firebase/database";
 import { db } from "../../../utils/firebase";
 
 export default function ForumTopic() {
@@ -25,15 +25,29 @@ export default function ForumTopic() {
 
     const [showModal, setShowModal] = useState(false);
     const [showAddNewReply, setShowAddNewReply] = useState(false);
-    const [showConfrimDeleteModal, setShowConfirmDeleteModal] = useState(false);
-    
+    const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    const [commentToDelete, setCommentToDelete] = useState(null);
+    const [commentToEdit, setCommentToEdit] = useState(null);
+    const [editedCommentText, setEditedCommentText] = useState('');
 
     const handleCloseDelModal = () => setShowConfirmDeleteModal(false);
-    const handleShowDelModal = () => setShowConfirmDeleteModal(true);
+    const handleShowDelModal = (commentKey) => {
+        setCommentToDelete(commentKey);
+        setShowConfirmDeleteModal(true);
+    };
+
+    const handleCloseEditModal = () => setShowEditModal(false);
+    const handleShowEditModal = (commentKey, commentText) => {
+        setCommentToEdit(commentKey);
+        setEditedCommentText(commentText);
+        setShowEditModal(true);
+    };
 
     const [userMessage, setUserMessage] = useState('');
     const { currentUser } = useAuth();
-    const target = useRef(null)
+    const target = useRef(null);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
     const handleAddReply = () => {
@@ -46,12 +60,12 @@ export default function ForumTopic() {
                 setShowPopup(false)
             }, 2000);
         }
-    }
+    };
     const handleChildAction = (updatedComments) => {
         setComments(updatedComments);
         setShowModal(false);
-    }
-    const handleDeleteComment = async (commentKey) => {
+    };
+    const handleDeleteComment = async () => {
         try {
             const id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
             const postsRef = ref(db, `/forum-posts/${categoryName}`);
@@ -62,24 +76,61 @@ export default function ForumTopic() {
                 const topicKey = Object.keys(snapshot.val())[0];
                 const topic = snapshot.val()[topicKey];
 
-                if (!topic.comments || !topic.comments[commentKey]) {
+                if (!topic.comments || !topic.comments[commentToDelete]) {
                     console.log('Comment not found');
+                    setShowConfirmDeleteModal(false);
                     return;
                 }
+                const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentToDelete}`);
+                await remove(commentRef);
 
-                const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentKey}`);
-                // await remove(commentRef);
-                // var temp_comments = await GetComments(categoryName, id_topic_name);
-                // setComments(temp_comments);
+                var temp_comments = await GetComments(categoryName, id_topic_name);
+                setComments(temp_comments);
 
                 console.log('Comment deleted successfully');
+                setShowConfirmDeleteModal(false);
             } else {
                 console.log('Topic not found');
             }
         } catch (error) {
             console.error('Failed to delete comment', error);
+            setShowConfirmDeleteModal(false);
         }
     };
+
+    const handleEditComment = async () => {
+        try {
+            const id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
+            const postsRef = ref(db, `/forum-posts/${categoryName}`);
+            const topicQuery = query(postsRef, orderByChild('id'), equalTo(id_topic_name));
+            const snapshot = await get(topicQuery);
+
+            if (snapshot.exists()) {
+                const topicKey = Object.keys(snapshot.val())[0];
+                const topic = snapshot.val()[topicKey];
+
+                if (!topic.comments || !topic.comments[commentToEdit]) {
+                    console.log('Comment not found');
+                    setShowEditModal(false);
+                    return;
+                }
+                const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentToEdit}`);
+                await update(commentRef, { text: editedCommentText });
+
+                var temp_comments = await GetComments(categoryName, id_topic_name);
+                setComments(temp_comments);
+
+                console.log('Comment edited successfully');
+                setShowEditModal(false);
+            } else {
+                console.log('Topic not found');
+            }
+        } catch (error) {
+            console.error('Failed to edit comment', error);
+            setShowEditModal(false);
+        }
+    };
+
     useEffect(() => {
         (async () => {
             try {
@@ -134,19 +185,36 @@ export default function ForumTopic() {
                         <div className={styles['user-actions']}>
                             {comment.timeOfPosting}
                             {comment.userName == currentUser.email.split("@")[0] ? (
-                                <div>
-                                    <OverlayTrigger
-                                        placement="right"
-                                        delay={{ show: 500, hide: 400 }}
-                                        overlay={
-                                            <Tooltip id={`tooltip-right`} >
-                                                Delete comment
-                                            </Tooltip>
-                                        }
-                                    >
-                                        <Button variant="outline-danger" onClick={() => handleDeleteComment(key)}>X</Button>
-                                    </OverlayTrigger>
-                                </div>
+                                <>
+
+
+                                    <div>
+                                        <OverlayTrigger
+                                            placement="right"
+                                            delay={{ show: 250, hide: 50 }}
+                                            overlay={
+                                                <Tooltip id={`tooltip-right`} >
+                                                    Edit comment
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <Button variant="outline-warning" onClick={() => handleShowEditModal(key, comment.text)}>Edit</Button>
+                                        </OverlayTrigger>
+                                    </div>
+                                    <div>
+                                        <OverlayTrigger
+                                            placement="right"
+                                            delay={{ show: 250, hide: 50 }}
+                                            overlay={
+                                                <Tooltip id={`tooltip-right`} >
+                                                    Delete comment
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <Button variant="outline-danger" onClick={() => handleShowDelModal(key)}>X</Button>
+                                        </OverlayTrigger>
+                                    </div>
+                                </>
                             ) : ""}
                         </div>
 
@@ -166,7 +234,7 @@ export default function ForumTopic() {
                 </div>
             </div>
             <div>
-                <Modal show={showConfrimDeleteModal} onHide={handleCloseDelModal}>
+                <Modal show={showConfirmDeleteModal} onHide={handleCloseDelModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>You're about to delete your comment</Modal.Title>
                     </Modal.Header>
@@ -175,8 +243,30 @@ export default function ForumTopic() {
                         <Button variant="secondary" onClick={handleCloseDelModal}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={handleCloseDelModal}>
+                        <Button variant="primary" onClick={handleDeleteComment}>
                             Yes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showEditModal} onHide={handleCloseEditModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Edit Comment</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Comment</Form.Label>
+                                <Form.Control type="text" value={editedCommentText} onChange={(e) => setEditedCommentText(e.target.value)} />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseEditModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleEditComment}>
+                            Save Changes
                         </Button>
                     </Modal.Footer>
                 </Modal>
