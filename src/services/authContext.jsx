@@ -29,8 +29,8 @@ export const AuthProvider = ({ children }) => {
     const changeEmail = (user, password, newEmail) => {
         return changeUserEmail(user, password, newEmail)
     }
-    
-    
+
+
     const logout = () => {
         return auth.signOut();
     };

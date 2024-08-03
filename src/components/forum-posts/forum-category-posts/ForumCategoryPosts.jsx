@@ -38,6 +38,8 @@ export default function ForumCategoryPosts() {
   if (topics === null) {
     return <PageNotFound />;
   }
+  console.log(categoryName);
+  console.log(topics);
   return (
     <>
       <div>

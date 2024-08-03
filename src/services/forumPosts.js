@@ -14,12 +14,3 @@ export default async function GetSectionPosts(sectionPost){
     console.error('Failed to fetch forum posts:', error);
   }
 }
-
-// export default async function DeleteSectionPosts(sectionPost){
-//   try{
-    
-//   }
-//   catch(error){
-//     console.error('Failed to delete forum post:', error);
-//   }
-// }

@@ -1,0 +1,14 @@
+.success{
+    background-color: green;
+    color: white;
+}
+.fail{
+    background-color: red;
+    color: white;
+}
+.message{
+    padding: 8px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 4px;
+}
