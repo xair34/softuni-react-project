@@ -2,7 +2,7 @@ import { db } from '.././utils/firebase.js';
 import { ref, get } from "firebase/database";
 
 
-export default async function GetSections() {
+export default async function getSections() {
     try {
         var sections = {};
         const snapshot = await get(ref(db, '/sections'));

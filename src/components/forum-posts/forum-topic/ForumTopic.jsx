@@ -6,7 +6,6 @@ import GetComments from "../../../services/forumPostComments";
 import AddReply from "../add-reply/AddReply";
 
 import Button from "react-bootstrap/esm/Button";
-import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -14,14 +13,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { query, ref, orderByChild, equalTo, get, update, remove } from "firebase/database";
 import { db } from "../../../utils/firebase";
+import getUserDetails from "../../../services/userDetails";
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
-
+    const { currentUser } = useAuth();
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState({});
-
-    const [showPopup, setShowPopup] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
     const [showAddNewReply, setShowAddNewReply] = useState(false);
@@ -45,21 +44,11 @@ export default function ForumTopic() {
         setShowEditModal(true);
     };
 
-    const [userMessage, setUserMessage] = useState('');
-    const { currentUser } = useAuth();
-    const target = useRef(null);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
     const handleAddReply = () => {
         setShowAddNewReply(!showAddNewReply);
         handleShowModal();
-        if (!currentUser) {
-            setShowPopup(true);
-            setUserMessage('You need to be logged in to be able to post a reply');
-            setTimeout(() => {
-                setShowPopup(false)
-            }, 2000);
-        }
     };
     const handleChildAction = (updatedComments) => {
         setComments(updatedComments);
@@ -138,13 +127,19 @@ export default function ForumTopic() {
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
                 setLoading(false);
+                const userType = await getUserDetails(currentUser.email);
+
+                if (userType.userType === 'admin') {
+                    setIsUserAdmin(true)
+                }
+                console.log(isUserAdmin)
             }
             catch (error) {
                 console.error('Unable to fetch comments at this time:', error);
             }
 
         })()
-    }, [categoryName, topicName]);
+    }, [categoryName, topicName, currentUser]);
     if (loading) {
         return <h3>Loading...</h3>
     }
@@ -157,14 +152,7 @@ export default function ForumTopic() {
             <div className={styles['topic-name-and-reply-button-container']}>
                 <h3>{topicName.replace(/-/g, ' ')}</h3>
                 <div className={styles["tooltip-container"]} >
-                    <Button variant="secondary" type="submit" className="btn-center m-3" onClick={handleAddReply} ref={target} >Add reply</Button>
-                    <Overlay target={target.current} show={showPopup} placement="right">
-                        {(props) => (
-                            <Tooltip id="overlay-example" {...props}>
-                                {userMessage}
-                            </Tooltip>
-                        )}
-                    </Overlay>
+                    {currentUser ? (<Button variant="secondary" type="submit" className="btn-center m-3" onClick={handleAddReply} >Add reply</Button>) : ""}
                 </div>
             </div>
             <div className={styles['topic-container']}>
@@ -184,22 +172,22 @@ export default function ForumTopic() {
                         </div>
                         <div className={styles['user-actions']}>
                             {comment.timeOfPosting}
-                            {comment.userName == currentUser.email.split("@")[0] ? (
+                            {isUserAdmin || (currentUser && comment.userName == currentUser.email.split("@")[0]) ? (
                                 <>
-
-
                                     <div>
-                                        <OverlayTrigger
-                                            placement="right"
-                                            delay={{ show: 250, hide: 50 }}
-                                            overlay={
-                                                <Tooltip id={`tooltip-right`} >
-                                                    Edit comment
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <Button variant="outline-warning" onClick={() => handleShowEditModal(key, comment.text)}>Edit</Button>
-                                        </OverlayTrigger>
+                                        {comment.userName == currentUser.email.split("@")[0] ? (
+                                            <OverlayTrigger
+                                                placement="right"
+                                                delay={{ show: 250, hide: 50 }}
+                                                overlay={
+                                                    <Tooltip id={`tooltip-right`} >
+                                                        Edit comment
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <Button variant="outline-warning" onClick={() => handleShowEditModal(key, comment.text)}>Edit</Button>
+                                            </OverlayTrigger>
+                                        ) : ""}
                                     </div>
                                     <div>
                                         <OverlayTrigger
