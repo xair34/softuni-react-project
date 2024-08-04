@@ -13,7 +13,6 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { query, ref, orderByChild, equalTo, get, update, remove } from "firebase/database";
 import { db } from "../../../utils/firebase";
-import getUserDetails from "../../../services/userDetails";
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
@@ -22,6 +21,7 @@ export default function ForumTopic() {
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState({});
 
+    const {currentUserDetails} = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [showAddNewReply, setShowAddNewReply] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
@@ -66,7 +66,7 @@ export default function ForumTopic() {
                 const topic = snapshot.val()[topicKey];
 
                 if (!topic.comments || !topic.comments[commentToDelete]) {
-                    console.log('Comment not found');
+                    console.error('Comment not found');
                     setShowConfirmDeleteModal(false);
                     return;
                 }
@@ -76,10 +76,10 @@ export default function ForumTopic() {
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
 
-                console.log('Comment deleted successfully');
+                console.error('Comment deleted successfully');
                 setShowConfirmDeleteModal(false);
             } else {
-                console.log('Topic not found');
+                console.error('Topic not found');
             }
         } catch (error) {
             console.error('Failed to delete comment', error);
@@ -99,7 +99,7 @@ export default function ForumTopic() {
                 const topic = snapshot.val()[topicKey];
 
                 if (!topic.comments || !topic.comments[commentToEdit]) {
-                    console.log('Comment not found');
+                    console.error('Comment not found');
                     setShowEditModal(false);
                     return;
                 }
@@ -109,10 +109,10 @@ export default function ForumTopic() {
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
 
-                console.log('Comment edited successfully');
+                // console.error('Comment edited successfully');
                 setShowEditModal(false);
             } else {
-                console.log('Topic not found');
+                console.error('Topic not found');
             }
         } catch (error) {
             console.error('Failed to edit comment', error);
@@ -127,19 +127,16 @@ export default function ForumTopic() {
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
                 setLoading(false);
-                const userType = await getUserDetails(currentUser.email);
-
-                if (userType.userType === 'admin') {
+                if (currentUserDetails.userType === 'admin') {
                     setIsUserAdmin(true)
                 }
-                console.log(isUserAdmin)
             }
             catch (error) {
                 console.error('Unable to fetch comments at this time:', error);
             }
 
         })()
-    }, [categoryName, topicName, currentUser]);
+    }, [categoryName, topicName]);
     if (loading) {
         return <h3>Loading...</h3>
     }

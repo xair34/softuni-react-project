@@ -54,28 +54,25 @@ export default function Register() {
 
             const adminUsersSnapshot = await get(ref(db, 'users/admins'));
             const adminUsersData = adminUsersSnapshot.val();
-            const adminUsersUsernames= adminUsersData ? Object.values(adminUsersData).map(user => user.username) : [];
+            const adminUsersUsernames = adminUsersData ? Object.values(adminUsersData).map(user => user.username) : [];
 
             const allUsernames = [...ordinaryUsernames, ...adminUsersUsernames];
 
-            if(allUsernames.includes(username)){
+            if (allUsernames.includes(username)) {
                 setErrorMessage('Username or email already exists.');
                 return;
             }
 
             const userCredentails = await registerUser(email, password);
-            const user = userCredentails.user;
             const date = getCurrentFormattedDate();
-            const userRef = ref(db, `users/ordinary/${user.uid}`);
             const userInfo = {
-                id:{
-                    username: username,
-                    email: email,
-                    profilePicture: "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
-                    dateJoined: date,
-                    posts: []
-                }
+                username: username,
+                email: email,
+                profilePicture: "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                dateJoined: date,
+                posts: {}
             }
+            const userRef = ref(db, `users/ordinary/${username}`);
             await set(userRef, userInfo);
 
             setSuccessMessage('Your account has been successfully created. You will now be redirected to the log in page.');

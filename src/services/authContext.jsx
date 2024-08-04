@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { auth } from '../utils/firebase';
 import { changeUserEmail, loginUser, registerUser } from './authenticatorService';
+import getUserDetails from './userDetails';
 
 const AuthContext = createContext();
 
@@ -10,33 +11,55 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
+    const [currentUserDetails, setCurrentUserDetails] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user);
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const userDetails = await getUserDetails(user.email);
+                setCurrentUser(user);
+                setCurrentUserDetails(userDetails);
+            } else {
+                setCurrentUser(null);
+                setCurrentUserDetails({});
+            }
+            setLoading(false); 
         });
         return unsubscribe;
     }, []);
 
-    const login = (email, password) => {
-        return loginUser(email, password);
+    const login = async (email, password) => {
+        const userCredentials = await loginUser(email, password);
+        const user = userCredentials.user;
+        const userDetails = await getUserDetails(user.email);
+        setCurrentUser(user);
+        setCurrentUserDetails(userDetails);
+        return userCredentials;
     };
 
-    const register = (email, password) => {
-        return registerUser(email, password);
+    const register = async (email, password) => {
+        const userCredentials = await registerUser(email, password);
+        const user = userCredentials.user;
+        const userDetails = await getUserDetails(user.email);
+        setCurrentUser(user);
+        setCurrentUserDetails(userDetails);
+        return userCredentials;
     };
 
     const changeEmail = (user, password, newEmail) => {
-        return changeUserEmail(user, password, newEmail)
-    }
+        return changeUserEmail(user, password, newEmail);
+    };
 
-
-    const logout = () => {
-        return auth.signOut();
+    const logout = async () => {
+        await auth.signOut();
+        setCurrentUser(null);
+        setCurrentUserDetails({});
     };
 
     const value = {
         currentUser,
+        currentUserDetails,
         login,
         register,
         changeEmail,
@@ -45,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading ? children : <div>Loading...</div>}
         </AuthContext.Provider>
     );
 };

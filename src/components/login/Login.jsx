@@ -34,12 +34,12 @@ export default function Login() {
     return (
         <Form className="form login-form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Username" onChange={handleUsernameChange} value={username} required/>
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" placeholder="Email" onChange={handleUsernameChange} value={username} required autoComplete="true"/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} value={password} required/>
+                <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} value={password} required autoComplete="true"/>
             </Form.Group>
             <Button variant="secondary" type="submit" className="btn-center m-3">
                 Login

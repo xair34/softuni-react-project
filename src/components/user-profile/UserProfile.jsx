@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import ChangeEmail from "./change-email/ChangeEmail";
 export default function UserProfile() {
 
-    const { currentUser, logout } = useAuth();
-    const navigate = useNavigate();
+    const { currentUser, logout, currentUserDetails } = useAuth();
+    const navigate = useNavigate(); 
 
     const handleLogout = async () => {
         try {
@@ -16,15 +16,14 @@ export default function UserProfile() {
             console.error('Unable to logout at this time', error);
         }
     }
-    console.log(currentUser);
     return (
         <div>
             {
                 currentUser ? (
                     <>
-                        <h1>Welcome, {(currentUser.email).split('@')[0]}</h1>
+                        <h1>Welcome, {currentUserDetails.username}</h1>
                         <button onClick={handleLogout}>Logout</button>
-                        <ChangeEmail currentUserEmail={currentUser.email} currentUserPassowrd={currentUser}/>
+                        <ChangeEmail currentUserEmail={currentUserDetails.email} currentUserPassowrd={currentUser}/>
                     </>) : (
                     <>
                         <p>Loading...</p>

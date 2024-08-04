@@ -1,8 +1,12 @@
 .topic-row{
     display: grid;
-    grid-template-columns: 240px minmax(240px, 1fr) 240px;
+    grid-template-columns: 240px minmax(50px, 1fr) minmax(50px, 240px);
     gap: 1em;
     padding: 16px;
+}
+
+@media screen and (max-width:800px){
+    
 }
 .topic-row:not(:first-child){
     border-top: 1px solid rgba(221,221,221,.4);
@@ -39,4 +43,16 @@
     display: flex;
     gap: 1em;
     justify-content: flex-end;
+}
+
+@media screen and (max-width: 800px) {
+    .user-avatar-and-name, .user-actions{
+        flex-direction: column;
+    }
+    .topic-row{
+        display: flex;
+    }
+    .topic-row:not(h4){
+        word-break: break-all;
+    }
 }

@@ -13,7 +13,7 @@ export default function ChangeEmail({
     currentUserPassowrd
 }) {
     const { currentUser, changeEmail } = useAuth();
-    const [currentEmail, setCurrentEmail] = useState('');
+    const [currentEmail, setCurrentEmail] = useState(currentUserEmail);
     const [newEmail, setNewEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -59,7 +59,7 @@ export default function ChangeEmail({
             {error && <div className="error">{error}</div>}
             <Form className="form login-form" >
                 <Form.Group className="mb-3" controlId="current-email">
-                    <Form.Label>Confirm current email</Form.Label>
+                    <Form.Label>Your current email</Form.Label>
                     <Form.Control type="email" placeholder="Current Email" required onChange={handleCurrentEmailChange} value={currentEmail} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="new-email">

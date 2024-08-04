@@ -3,12 +3,16 @@ import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from '../../../utils/firebase';
-import { ref, set } from 'firebase/database';
+import { ref, set, update } from 'firebase/database';
 import { useAuth } from '../../../services/authContext';
 import { getCurrentFormattedDate } from '../../../utils/dateFormatter';
-export default function CreateTopic({ categoryName }) {
+export default function CreateTopic({ 
+    categoryName,
+    onTopicCreated 
+}) {
     const [topicTitle, setTopicTitle] = useState('');
-    const { currentUser } = useAuth();
+    const {currentUserDetails} = useAuth();
+
     const [topicText, setTopicText] = useState('');
     const currentDate = getCurrentFormattedDate();
     const handleTopicTitle = (e) => {
@@ -26,22 +30,35 @@ export default function CreateTopic({ categoryName }) {
             const newTopicRef = ref(db, `forum-posts/${categoryName}/${id_topic_name}`);
             const newTopicData = {
                 id: id_topic_name,
-                owner: currentUser.email.split("@")[0],
+                owner: currentUserDetails.username,
                 topicName: topicTitle,
                 comments: {
                     0: {
                         text: topicText,
                         timeOfPosting: currentDate,
-                        userAvatar: '',
-                        userName: currentUser.email.split("@")[0]
+                        userAvatar: currentUserDetails.userAvatar,
+                        userName: currentUserDetails.username
                     }
                 }
             };
+            const userType = currentUserDetails.userType == 'admin' ? 'admins' : 'ordinary';
+            const userRef = ref(db, `/users/${userType}/${currentUserDetails.username}`)
+            const newPostKey = newTopicData.id;
+            const updatedPosts = {
+                ...currentUserDetails.posts,
+                [newPostKey]: {
+                    topicLink: `/${categoryName}/${id_topic_name}`,
+                    topicTitle: topicTitle
+                }
+
+            }
 
             await set(newTopicRef, newTopicData);
+            await update(userRef, {posts: updatedPosts});
 
             setTopicTitle('');
             setTopicText('');
+            onTopicCreated();
         } catch (error) {
             console.error('Failed to create topic', error);
         }
