@@ -1,10 +1,15 @@
 .topic-row{
-    display: grid;
-    grid-template-columns: 240px minmax(50px, 1fr) minmax(50px, 240px);
+    display: flex;
+    flex-direction: column;
     gap: 1em;
     padding: 16px;
 }
-
+.topic-row>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: ce;
+    gap: 1em;
+}
 @media screen and (max-width:800px){
     
 }

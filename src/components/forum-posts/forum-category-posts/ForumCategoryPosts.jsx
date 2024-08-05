@@ -97,7 +97,7 @@ export default function ForumCategoryPosts() {
                 {topics.map(([key, topic]) => (
                   <tr key={key}>
                     <td className="topic-name">
-                      <Link to={`/${categoryName}/${topic.topicName.replace(/ /g, '-')}`}>{topic.topicName}</Link>
+                      <Link to={`/${categoryName}/${topic.topicName.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase().replace(/-+$/, '')}`}>{topic.topicName}</Link>
                     </td>
                     <td className="replies">{topic.comments ? Object.entries(topic.comments).length : 0}</td>
                     <td className="views">{topic.owner}</td>

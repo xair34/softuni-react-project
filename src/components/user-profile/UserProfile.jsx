@@ -10,10 +10,14 @@ export default function UserProfile() {
     const { currentUser, logout, currentUserDetails } = useAuth();
     const [currentUserAvatar, setCurrentUserAvatar] = useState(currentUserDetails.userAvatar);
 
+    useEffect(()=>{
+        setCurrentUserAvatar(currentUserDetails.userAvatar);
+    },[currentUserDetails])
+
     const handleUserAvatarChanged = (newUrl) =>{
         setCurrentUserAvatar(newUrl)
     }
-    const navigate = useNavigate(); 
+
 
     
     return (
@@ -22,7 +26,7 @@ export default function UserProfile() {
                 currentUser ? (
                     <>
                         <h1>Welcome, {currentUserDetails.username}</h1>
-                        <img src={currentUserDetails.userAvatar} alt="" width={'128px'} height={'128px'}/>
+                        <img src={currentUserAvatar} alt="" width={'128px'} height={'128px'}/>
                         <AvatarUpdate onAvatarUpdate={handleUserAvatarChanged}/>
                         <ChangeEmail currentUserEmail={currentUserDetails.email} currentUserPassowrd={currentUser}/>
                     </>) : (

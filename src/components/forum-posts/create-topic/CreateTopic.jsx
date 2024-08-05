@@ -26,7 +26,7 @@ export default function CreateTopic({
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
-            const id_topic_name = topicTitle.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase();
+            const id_topic_name = topicTitle.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase().replace(/-+$/, '');
             const newTopicRef = ref(db, `forum-posts/${categoryName}/${id_topic_name}`);
             const newTopicData = {
                 id: id_topic_name,

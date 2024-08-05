@@ -60,17 +60,17 @@ export default function ForumTopic() {
             const postsRef = ref(db, `/forum-posts/${categoryName}`);
             const topicQuery = query(postsRef, orderByChild('id'), equalTo(id_topic_name));
             const snapshot = await get(topicQuery);
-          
+
             if (snapshot.exists()) {
                 const topicKey = Object.keys(snapshot.val())[0];
                 const topic = snapshot.val()[topicKey];
-                
+
                 if (!topic.comments || !topic.comments[commentToDelete]) {
                     console.error('Comment not found');
                     setShowConfirmDeleteModal(false);
                     return;
                 }
-                
+
                 const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentToDelete}`);
                 await remove(commentRef);
 
@@ -153,21 +153,19 @@ export default function ForumTopic() {
                 </div>
             </div>
             <div className={styles['topic-container']}>
-                <div className={styles['topic-row']}>
+                {/* <div className={styles['topic-row']}>
                     <p>User</p>
                     <p>Comment</p>
                     <p>Time of posting</p>
-                </div>
+                </div> */}
                 {comments.map(([key, comment]) => (
                     <div key={key} className={styles['topic-row']}>
-                        <div className={styles["user-avatar-and-name"]}>
-                            <img src={comment.userAvatar} alt={`${comment.userName}'s avatar`} className={styles['user-avatar-icon']} />
-                            <h4>{comment.userName}</h4>
-                        </div>
-                        <div className={['username-and-comment']}>
-                            <p>{comment.text}</p>
-                        </div>
-                        <div className={styles['user-actions']}>
+                        <div>
+                            <div className={styles["user-avatar-and-name"]}>
+                                <img src={comment.userAvatar} alt={`${comment.userName}'s avatar`} className={styles['user-avatar-icon']} />
+                                <h4>{comment.userName}</h4>
+                            </div>
+                            <div className={styles['user-actions']}>
                             {comment.timeOfPosting}
                             {isUserAdmin || (currentUser && comment.userName == currentUser.email.split("@")[0]) ? (
                                 <>
@@ -202,6 +200,12 @@ export default function ForumTopic() {
                                 </>
                             ) : ""}
                         </div>
+
+                        </div>
+                        <div className={['username-and-comment']}>
+                            <p>{comment.text}</p>
+                        </div>
+
 
                     </div>
                 ))}
