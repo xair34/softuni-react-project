@@ -10,7 +10,6 @@ import Form from 'react-bootstrap/Form';
 
 export default function ChangeEmail({
     currentUserEmail,
-    currentUserPassowrd
 }) {
     const { currentUser, changeEmail } = useAuth();
     const [currentEmail, setCurrentEmail] = useState(currentUserEmail);

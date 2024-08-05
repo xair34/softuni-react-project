@@ -12,7 +12,7 @@ export default function AddReply({
     commentAdded
 }) {
     const [reply, setReply] = useState('');
-    const {currentUser} = useAuth();
+    const {currentUser, currentUserDetails} = useAuth();
     const {categoryName, topicName} = useParams();
     const currentDate = getCurrentFormattedDate();
     const handleReplyText = (e) =>{
@@ -35,7 +35,7 @@ export default function AddReply({
                 const current_user_comment = {
                     text: reply,
                     timeOfPosting: currentDate,
-                    userAvatar: "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                    userAvatar: currentUserDetails.userAvatar,
                     userName: current_user_username
                 }
                 if(!topic.comments){

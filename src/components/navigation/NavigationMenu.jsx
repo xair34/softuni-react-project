@@ -5,8 +5,16 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../../services/authContext';
 
 export default function NavigationMenu() {
-    const {currentUser, logout} = useAuth();
-
+    const { currentUser, logout } = useAuth();
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/');
+        }
+        catch (error) {
+            console.error('Unable to logout at this time', error);
+        }
+    }
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -15,8 +23,13 @@ export default function NavigationMenu() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        {currentUser ?  
-                            (<Nav.Link as={Link} to="/profile">Profile</Nav.Link>) : (<Nav.Link as={Link} to="/login">Login</Nav.Link>)}
+                        {currentUser ?
+                            (
+                                <>
+                                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                                    <button onClick={handleLogout} className='nav-link'>Logout</button>
+                                </>
+                            ) : (<Nav.Link as={Link} to="/login">Login</Nav.Link>)}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

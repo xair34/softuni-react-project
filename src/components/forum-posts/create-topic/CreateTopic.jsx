@@ -59,6 +59,8 @@ export default function CreateTopic({
             setTopicTitle('');
             setTopicText('');
             onTopicCreated();
+
+            
         } catch (error) {
             console.error('Failed to create topic', error);
         }

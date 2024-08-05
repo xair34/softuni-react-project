@@ -16,12 +16,11 @@ import { db } from "../../../utils/firebase";
 
 export default function ForumTopic() {
     const { categoryName, topicName } = useParams();
-    const { currentUser } = useAuth();
+    const { currentUser, currentUserDetails } = useAuth();
     const [isUserAdmin, setIsUserAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState({});
 
-    const {currentUserDetails} = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [showAddNewReply, setShowAddNewReply] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
@@ -55,21 +54,23 @@ export default function ForumTopic() {
         setShowModal(false);
     };
     const handleDeleteComment = async () => {
+        console.log(topicName);
         try {
             const id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
             const postsRef = ref(db, `/forum-posts/${categoryName}`);
             const topicQuery = query(postsRef, orderByChild('id'), equalTo(id_topic_name));
             const snapshot = await get(topicQuery);
-
+          
             if (snapshot.exists()) {
                 const topicKey = Object.keys(snapshot.val())[0];
                 const topic = snapshot.val()[topicKey];
-
+                
                 if (!topic.comments || !topic.comments[commentToDelete]) {
                     console.error('Comment not found');
                     setShowConfirmDeleteModal(false);
                     return;
                 }
+                
                 const commentRef = ref(db, `/forum-posts/${categoryName}/${topicKey}/comments/${commentToDelete}`);
                 await remove(commentRef);
 
@@ -108,8 +109,6 @@ export default function ForumTopic() {
 
                 var temp_comments = await GetComments(categoryName, id_topic_name);
                 setComments(temp_comments);
-
-                // console.error('Comment edited successfully');
                 setShowEditModal(false);
             } else {
                 console.error('Topic not found');
@@ -123,8 +122,9 @@ export default function ForumTopic() {
     useEffect(() => {
         (async () => {
             try {
-                var id_topic_name = topicName.replace(/[^a-zA-Z -]/g, "").toLowerCase();
+                var id_topic_name = topicName.replace(/[^a-zA-Z0-9 -]/g, "").toLowerCase();
                 var temp_comments = await GetComments(categoryName, id_topic_name);
+                console.log(id_topic_name);
                 setComments(temp_comments);
                 setLoading(false);
                 if (currentUserDetails.userType === 'admin') {
