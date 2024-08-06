@@ -153,11 +153,7 @@ export default function ForumTopic() {
                 </div>
             </div>
             <div className={styles['topic-container']}>
-                {/* <div className={styles['topic-row']}>
-                    <p>User</p>
-                    <p>Comment</p>
-                    <p>Time of posting</p>
-                </div> */}
+               
                 {comments.map(([key, comment]) => (
                     <div key={key} className={styles['topic-row']}>
                         <div>

@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { auth } from '../utils/firebase';
 import { changeUserEmail, loginUser, registerUser } from './authenticatorService';
 import getUserDetails from './userDetails';
+import { set } from 'firebase/database';
 
 const AuthContext = createContext();
 
@@ -28,7 +29,6 @@ export const AuthProvider = ({ children }) => {
         });
         return unsubscribe;
     }, []);
-
     const login = async (email, password) => {
         const userCredentials = await loginUser(email, password);
         const user = userCredentials.user;
@@ -38,9 +38,10 @@ export const AuthProvider = ({ children }) => {
         return userCredentials;
     };
 
-    const register = async (email, password) => {
+    const register = async (email, password, userInfo, userRef) => {
         const userCredentials = await registerUser(email, password);
         const user = userCredentials.user;
+        await set(userRef, userInfo);
         const userDetails = await getUserDetails(user.email);
         setCurrentUser(user);
         setCurrentUserDetails(userDetails);

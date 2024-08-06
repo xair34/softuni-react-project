@@ -21,6 +21,8 @@ export default function ForumCategoryPosts() {
   const handleCloseDelModal = () => setShowConfirmDeleteModal(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const [postToDeleteTitle, setPostToDeleteTitle] = useState(null);
+  const adminOnlySections = ['announcements', 'patch-notes']
+
   const handleShowDelModal = (postId, postName) => {
     setPostToDelete(postId);
     setPostToDeleteTitle(postName);
@@ -62,7 +64,6 @@ export default function ForumCategoryPosts() {
 
   useEffect(() => {
     fetchTopics();
-    console.log('effect')
   }, [categoryName]);
 
 
@@ -77,7 +78,11 @@ export default function ForumCategoryPosts() {
       <div>
         {currentUser && (
           <div>
-            <Button variant='secondary' onClick={handleCreateNewTopic}>Add topic</Button>
+
+            {((adminOnlySections.includes(categoryName) && currentUserDetails.userType === 'admin') ||
+              (!adminOnlySections.includes(categoryName))) && (
+                <Button variant='secondary' onClick={handleCreateNewTopic}>Add topic</Button>
+              )}
             {createNewTopic && <CreateTopic categoryName={categoryName} onTopicCreated={handleTopicCreated} />}
           </div>
         )}
@@ -85,7 +90,7 @@ export default function ForumCategoryPosts() {
           <div><Link to={`/`}>Back to Main</Link></div>
           <h3 className='capitalize'>{categoryName}</h3>
           {topics.length > 0 ? (
-              <table className={styles["forum-topics"]}>
+            <table className={styles["forum-topics"]}>
               <thead>
                 <tr>
                   <td>Topic</td>
@@ -110,7 +115,7 @@ export default function ForumCategoryPosts() {
                 ))}
               </tbody>
             </table>
-          ): (<h3>No topics available</h3>)}
+          ) : (<h3>No topics available</h3>)}
         </div>
         <div>
           <Modal show={showConfirmDeleteModal} onHide={handleCloseDelModal}>

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { getCurrentFormattedDate } from "../../utils/dateFormatter";
 import { db } from "../../utils/firebase";
 import { get, ref, set } from "firebase/database";
-
 import styles from './Register.module.css';
 
 export default function Register() {
@@ -18,7 +17,7 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMesage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-
+    const { register } = useAuth();
     const { navigate } = useNavigate();
 
     const handleEmailChange = (e) => {
@@ -63,22 +62,19 @@ export default function Register() {
                 return;
             }
 
-            const userCredentails = await registerUser(email, password);
+            const userRef = ref(db, `users/ordinary/${username}`);
+            
             const date = getCurrentFormattedDate();
             const userInfo = {
                 username: username,
                 email: email,
-                profilePicture: "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
+                userAvatar: "https://forum.lastepoch.com/uploads/default/original/1X/d160f95b987020dfc973fa21bd48f4fa884552f0.png",
                 dateJoined: date,
+                id: username,
+                userType: 'user',
                 posts: {}
             }
-            const userRef = ref(db, `users/ordinary/${username}`);
-            await set(userRef, userInfo);
-
-            setSuccessMessage('Your account has been successfully created. You will now be redirected to the log in page.');
-            setInterval(() => {
-                navigate('/login');
-            }, 2000);
+            await register(email, password, userInfo, userRef);
         }
         catch (error) {
             switch (error.code) {

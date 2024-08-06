@@ -7,7 +7,7 @@ export default async function getUserDetails(userEmail) {
 
         const ordinarySnapshot = await get(child(dbRef, 'users/ordinary'));
         const ordinaryUsers = ordinarySnapshot.exists() ? ordinarySnapshot.val() : {};
-
+        
         for (const key in ordinaryUsers) {
             if (ordinaryUsers[key].email === userEmail) {
                 return ordinaryUsers[key];

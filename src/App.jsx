@@ -38,6 +38,7 @@ function App() {
                 <Route path="/" element={<ForumSections />} />
                 <Route path="/:categoryName" element={<ForumCategoryPosts />} />
                 <Route path="/:categoryName/:topicName" element={<ForumTopic />} />
+                
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </Row>

@@ -8,7 +8,7 @@ import AvatarUpdate from "./avatar-update/AvatarUpdate";
 export default function UserProfile() {
 
     const { currentUser, logout, currentUserDetails } = useAuth();
-    const [currentUserAvatar, setCurrentUserAvatar] = useState(currentUserDetails.userAvatar);
+    const [currentUserAvatar, setCurrentUserAvatar] = useState('');
 
     useEffect(()=>{
         setCurrentUserAvatar(currentUserDetails.userAvatar);
@@ -18,12 +18,10 @@ export default function UserProfile() {
         setCurrentUserAvatar(newUrl)
     }
 
-
-    
     return (
         <div>
             {
-                currentUser ? (
+                (currentUser && currentUserDetails) ? (
                     <>
                         <h1>Welcome, {currentUserDetails.username}</h1>
                         <img src={currentUserAvatar} alt="" width={'128px'} height={'128px'}/>

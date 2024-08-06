@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, reauthenticateWithCredential, sendEmail
 import { auth } from "../utils/firebase"
 import { EmailAuthProvider } from "firebase/auth/web-extension";
 
-export const registerUser = async(email,password) =>{
+export const registerUser = async(email,password, userInfo) =>{
     try{
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
         return userCredentials;
